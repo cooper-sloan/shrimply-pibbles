@@ -1,0 +1,37 @@
+h1 {
+  border-bottom: 4px solid white;
+  min-height: 70px;
+  margin: 55px auto 0;
+  padding: 10px 10px; 
+  background-color: LightSeaGreen;
+  text-align: center;
+  color: white;
+  width: 750px;
+  font-family: 'Adelle W01 Bold', 'Arvo', Constantia, "Lucida Bright", Lucidabright, "Lucida Serif", Lucida, "DejaVu Serif", "Bitstream Vera Serif", "Liberation Serif", Georgia, serif;
+  font-size: 91px;
+  font-weight: 500;
+}
+
+input {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  margin-top: -50px;
+  margin-left: -60px;
+  text-align: center;
+  padding: 3px;
+  width: 120px;
+  height: 40px;
+}
+
+h3 {
+  position: absolute;
+  top: 70%;
+  left: 50%;
+  margin-top: -50px;
+  margin-left: -200px;
+  text-align: center;
+  padding: 3px;
+  width: 400px;
+  height: 40px;
+}
