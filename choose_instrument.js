@@ -24,7 +24,6 @@ var guitar = [ "acoustic_guitar_nylon",
     "electric_guitar_clean",
     "electric_guitar_jazz",
     "electric_guitar_muted",
-    "guitar_fret_noise",
     "guitar_harmonics",
     "overdriven_guitar"];
 

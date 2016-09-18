@@ -15,13 +15,14 @@ var bar_length = beat_length * beats_per_bar;
 var subdivision_length = beat_length/subdivisions_per_beat;
 var velocity = 127; // how hard the note hits
 var chords=[a_minor,e_minor,f_major,g_major];
-var drums = ["snare","kick","cymbal"]
-var drum_assignments = chooseDrums()
-console.log(drum_assignments)
+var drums = ["snare","kick","cymbal"];
+var sections = ["intro","verse","chorus","hook","outro"]
+var drum_assignments = chooseDrums();
+console.log("Drums: "+JSON.stringify(drum_assignments));
 
 var selected_instruments = chooseInstruments();
 var structure = generateStructure();
-structure = [{section: "intro",length:0},{section: "verse", length:4}]
+//structure = [{section: "intro",length:4},{section: "verse", length:104}]
 console.log(structure);
 var melody = selected_instruments.melody;
 var background = selected_instruments.background;
@@ -37,17 +38,26 @@ var instruments = melody.concat(background).concat(beat)
   }
 
 window.onload = function () {
-  load_with_instruments(instruments, do_both)
+  load_with_instruments(instruments, make_music)
 };
 
+var make_music = function(){
+  //play_chords();
+  play_beat();
+  play_arpeggio();
+}
 var play_beat = function() {
   MIDI.programChange(0, MIDI.GM.byName["synth_drum"].number);
   var bass_drum = 41;
   var cymbal = 30;
   var snare_drum = 39;
 
-  var drum_patterns = {snare:[0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0],kick:[1,0,0,0,0,0,0,1,0,1,1,0,0,0,0,0],cymbal:[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]}
-  var drum_patterns_by_section = {intro:empty_drum_pattern,verse:drum_patterns,chorus:drum_patterns,hook:drum_patterns,outro:drum_patterns}
+  //var drum_patterns = {snare:[0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0],kick:[1,0,0,0,0,0,0,1,0,1,1,0,0,0,0,0],cymbal:[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]}
+  //var drum_patterns_by_section = {intro:empty_drum_pattern,verse:drum_patterns,chorus:drum_patterns,hook:drum_patterns,outro:drum_patterns}
+  var drum_patterns_by_section = {}
+  sections.forEach(function(section){
+    drum_patterns_by_section[section] = chooseBeat();
+  })
 
   MIDI.setVolume(0, velocity);
   var section_offset = 0;
@@ -74,11 +84,6 @@ var play_beat = function() {
   })
 }
 
-var do_both = function(){
-  //play_chords();
-  play_beat();
-  //play_arpeggio();
-}
 
 var arpeggiate = function(chord){
   var previous = 0;
@@ -102,11 +107,13 @@ var arpeggiate = function(chord){
 }
 
 var play_chords = function() {
+  var velocity = 50;
   for(var i=0;i<background.length;i++){
     MIDI.programChange(i, MIDI.GM.byName[background[i]].number);
+    MIDI.setVolume(i,velocity);
   }
-  MIDI.setVolume(0, velocity);
-  var section_offset = 0
+
+    var section_offset = 0;
   structure.forEach(function(song_section){
     for(var i = 0; i<background.length; i++){
       for(var bar = 0; bar<num_bars; bar++){
@@ -128,26 +135,27 @@ var play_arpeggio = function() {
   for(var i=0;i<melody.length;i++){
     MIDI.programChange(i, MIDI.GM.byName[melody[i]].number);
   }
-  MIDI.setVolume(0, velocity*(1.0/2));
+  var velocity = 90
+  MIDI.setVolume(0, velocity);
   var section_offset = 0
-  structure.forEach(function(song_section){
-    for(var i = 0; i<melody.length; i++){
-      for(var bar = 0; bar<num_bars; bar++){
-        var bar_offset = bar*subdivisions_per_bar*subdivision_length;
-        chord = chords[bar%4];
-        var arpeggio = arpeggiate(chord);
-        for(var beat = 0; beat<beats_per_bar; beat++){
-          var beat_offset = beat*beat_length;
-          for(var subdivision = 0; subdivision<subdivisions_per_beat; subdivision++){
-            var subdivision_of_bar = beat*subdivisions_per_beat+subdivision;
-            var subdivision_offset = subdivision*subdivision_length;
-            var total_offset = section_offset + bar_offset + beat_offset + subdivision_offset
-            MIDI.noteOn(i, arpeggio[subdivision_of_bar], velocity, total_offset);
-            MIDI.noteOff(i, arpeggio[subdivision_of_bar], total_offset+subdivision_length);
+    structure.forEach(function(song_section){
+      for(var i = 0; i<melody.length; i++){
+        for(var bar = 0; bar<num_bars; bar++){
+          var bar_offset = bar*subdivisions_per_bar*subdivision_length;
+          chord = chords[bar%4];
+          var arpeggio = arpeggiate(chord);
+          for(var beat = 0; beat<beats_per_bar; beat++){
+            var beat_offset = beat*beat_length;
+            for(var subdivision = 0; subdivision<subdivisions_per_beat; subdivision++){
+              var subdivision_of_bar = beat*subdivisions_per_beat+subdivision;
+              var subdivision_offset = subdivision*subdivision_length;
+              var total_offset = section_offset + bar_offset + beat_offset + subdivision_offset;
+              MIDI.noteOn(i, arpeggio[subdivision_of_bar], velocity, total_offset);
+              MIDI.noteOff(i, arpeggio[subdivision_of_bar], total_offset+subdivision_length);
+            }
           }
         }
       }
-    }
-    section_offset+=song_section.length*bar_length
-  })
+      section_offset+=song_section.length*bar_length
+    })
 }

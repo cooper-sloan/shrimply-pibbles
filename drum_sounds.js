@@ -1,7 +1,21 @@
+var subdivisions_per_bar = 16
 
-
-function chooseDrums() {
-  var cymbals = ["cymbal1","cymbal2","cymbal3","cymbal4","cymbal6","hi_hat1","hi_hat2"];
+var chooseBeat = function() {
+  return {"snare":randomArray(2.0/16), "kick":randomArray(4.0/16), "cymbal":randomArray(12.0/16)}
+}
+var randomArray = function(probability){
+  var beat = []
+  for(var i=0;i<subdivisions_per_bar;i++){
+    if(Math.random() < probability){
+      beat.push(1)
+    }else{
+      beat.push(0)
+    }
+  }
+  return beat
+}
+var chooseDrums = function() {
+  var cymbals = ["shaker","cymbal3","cymbal6","hi_hat1","hi_hat2"];
   var kicks = ["kick","kick1","bongo","tom_tom4"];
   var snares = ["tom_tom1","tom_tom2","tom_tom3","tom_tom4","wood_block","wood_block1","wood_block2","cowbell1","cowbell2"];
   var drums = {"hi_hat1" : 21,
@@ -56,8 +70,5 @@ function chooseDrums() {
   kick_choice = kicks[rand_kick_int];
   snare_choice = snares[rand_snares_int];
 
-  console.log("cym"+cymbal_choice)
-    console.log("choice"+drums[cymbal_choice])
-    console.log("drums"+drums)
-    return {"cymbal":drums[cymbal_choice], "kick":drums[kick_choice], "snare":drums[snare_choice]};
+  return {"cymbal":drums[cymbal_choice], "kick":drums[kick_choice], "snare":drums[snare_choice]};
 }
