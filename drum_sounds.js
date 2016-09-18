@@ -1,4 +1,4 @@
-{"hi_hat1" : 21,
+var drums = {"hi_hat1" : 21,
 "tom_tom1" : 22,
 "hi_hat2" : 23,
 "tom_tom2" : 24,
@@ -9,14 +9,14 @@
 "cymbal2" : 29,
 "cymbal3" : 30,
 "tambourine" : 31,
-"cymbal4" : 32
+"cymbal4" : 32,
 "cowbell" : 33,
 "cymbal5" : 34,
 "viberslap" : 35,
 "cymbal6" : 36,
 "wood_block" : 37,
-"wood_block2" : 38,
-"wood_block3" : 39,
+"wood_block1" : 38,
+"wood_block2" : 39,
 "bongo" : 40,
 "bongo1" : 41,
 "break_drum" : 42,
@@ -41,4 +41,22 @@
 "jingle_bell1" : 61,
 "clave1" : 62,
 "kick" : 63,
-"kick1" : 64}
+"kick1" : 64};
+
+var cymbals = ["cymbal1","cymbal2","cymbal3","cymbal4","cymbal5","cymbal6","hi_hat1","hi_hat2"];
+var kicks = ["kick","kick1"];
+var snares = ["tom_tom1","tom_tom2","tom_tom3","tom_tom4","wood_block","wood_block1","wood_block2","cowbell1","cowbell2"];
+
+function chooseDrums() {
+	rand_cymbal_int = Math.floor(Math.random() * cymbals.length);
+	rand_kick_int = Math.floor(Math.random() * kicks.length);
+	rand_snares_int = Math.floor(Math.random() * snares.length);
+
+	cymbal_choice = cymbals[rand_cymbal_int];
+	kick_choice = kicks[rand_kick_int];
+	snare_choice = snares[rand_snares_int];
+	
+	return {"cymbals":drums[cymbal_choice], "kick":drums[kick_choice], "snare":drums[snare_choice]};
+}
+
+console.log(chooseDrums());
