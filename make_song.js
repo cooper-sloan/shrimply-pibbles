@@ -14,9 +14,16 @@ var beat_length = 60/bpm;
 var subdivision_length = beat_length/subdivisions_per_beat;
 var note_length = beat_length/subdivisions_per_beat;
 var velocity = 127; // how hard the note hits
+var chords=[a_minor,e_minor,f_major,g_major];
 
-var melody = ["marimba","electric_guitar_jazz"];
-var background = ["cello"];
+var selected_instruments = chooseInstruments();
+var structure = generateStructure();
+console.log(structure)
+
+
+var melody = selected_instruments.melody
+var background = selected_instruments.background
+console.log(selected_instruments)
 var beat = ["synth_drum"];
 
 var instruments = melody.concat(background).concat(beat)
@@ -91,7 +98,6 @@ var play_chords = function() {
     MIDI.programChange(i, MIDI.GM.byName[background[i]].number);
   }
   MIDI.setVolume(0, velocity);
-  var chords=[c_major,a_minor,f_major,g_major];
   for(var i = 0; i<background.length; i++){
     for(var bar = 0; bar<num_bars; bar++){
       var bar_offset = bar*bar_length*note_length;
@@ -110,20 +116,16 @@ var play_arpeggio = function() {
     MIDI.programChange(i, MIDI.GM.byName[melody[i]].number);
   }
   MIDI.setVolume(0, velocity*(1.0/2));
-
-  var chords=[a_minor,e_minor,f_major,g_major];
   for(var i = 0; i<melody.length; i++){
     for(var bar = 0; bar<num_bars; bar++){
       var bar_offset = bar*bar_length*note_length;
       chord = chords[bar%4];
       var arpeggio = arpeggiate(chord);
-      console.log(arpeggio);
       for(var beat = 0; beat<beats_per_bar; beat++){
         var beat_offset = beat*beat_length;
         for(var subdivision = 0; subdivision<subdivisions_per_beat; subdivision++){
           var subdivision_of_bar = beat*subdivisions_per_beat+subdivision;
           var subdivision_offset = subdivision*subdivision_length;
-          console.log(i)
           MIDI.noteOn(i, arpeggio[subdivision_of_bar], velocity, bar_offset+beat_offset+subdivision_offset);
           MIDI.noteOff(i, arpeggio[subdivision_of_bar], bar_offset+beat_offset+subdivision_offset+subdivision_length);
         }
