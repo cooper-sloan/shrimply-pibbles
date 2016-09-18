@@ -35,22 +35,22 @@ function myFunction () {
   MIDI.loadPlugin({
     soundfontUrl: "./sounds/",
     // acoustic_grand_piano
-    instrument: "marimba",
+    instrument: "synth_drum",
     onprogress: function(state, progress) {
       console.log(state, progress);
     },
     onsuccess: function() {
-      MIDI.programChange(0, MIDI.GM.byName["marimba"].number);
+      MIDI.programChange(0, MIDI.GM.byName["synth_drum"].number);
       var delay = 0; // play one note every quarter second
-      var note = 21; // the MIDI note
+      var note = 20; // the MIDI note
       var velocity = 127; // how hard the note hits
       // play the note
       MIDI.setVolume(0, 127);
-      for(i = 0; i<50; i++){
+      for(i = 65; i < 66; i++){
         inc = i/4;
         console.log(inc);
-        MIDI.noteOn(0, note+i, velocity, delay+inc);
-        MIDI.noteOff(0, note+i, delay+inc + 0.25);
+        MIDI.noteOn(0, i, velocity, delay+inc);
+        MIDI.noteOff(0, i, delay+inc + 0.25);
       }
     }
   });
