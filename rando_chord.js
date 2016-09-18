@@ -1,4 +1,4 @@
-function gen_rand_chord() {	
+function gen_rand_chords() {
 	var c_minor = [60,63,67];
 	var g_minor = [55,58,62];
 	var a_flat = [56,60,63];
@@ -20,7 +20,7 @@ function gen_rand_chord() {
 
 	d_flat = [49,53,56];
 	b_flat_minor = [58,62,65];
-	
+
 	chord_prog1 = [c_minor,g_minor,a_flat,f_minor];
 	chord_prog2 = [d_sharp,a_sharp,b_sharp_minor,g_sharp];
 	chord_prog3 = [g_minor,d_minor,e_flat,c_minor];
@@ -30,5 +30,3 @@ function gen_rand_chord() {
 	rand_chord_int = Math.floor(Math.random() * chords_array.length);
 	return chords_array[rand_chord_int];
 }
-
-console.log(gen_rand_chord());
