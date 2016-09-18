@@ -29,7 +29,7 @@ var guitar = [ "acoustic_guitar_nylon",
     "overdriven_guitar"];
 
 var percussion = ["marimba", "glockenspiel","tinkle_bell",
-    "tubular_bells", "steel drums"];
+    "tubular_bells", "steel_drums"];
 
 var voice = ["lead_6_voice",
     "voice_oohs", "choir_aahs",

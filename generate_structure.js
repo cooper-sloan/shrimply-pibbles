@@ -2,19 +2,19 @@ function generateStructure () {
   var order = [];
   var intro = {};
   intro["section"] = "intro";
-  intro["length"] = randMultipleOfFour(8, 16);
+  intro["length"] = randMultipleOfFour(4, 8);
   order.push(intro);
 
-  for (i = 0; i < getRandInRange(1, 3); i++) {
+  for (i = 0; i < getRandInRange(1, 1); i++) {
     verse = {};
     verse["section"] = "verse";
-    verse["length"] = randMultipleOfFour(16, 32);
+    verse["length"] = randMultipleOfFour(4, 8);
     hook = {};
     hook["section"] = "hook";
-    hook["length"] = randMultipleOfFour(8, 16);
+    hook["length"] = randMultipleOfFour(4, 8);
     chorus = {};
     chorus["section"] = "chorus";
-    chorus["length"] = randMultipleOfFour(16, 32);
+    chorus["length"] = randMultipleOfFour(4, 8);
     order.push(verse);
     order.push(hook);
     order.push(chorus);
@@ -22,7 +22,7 @@ function generateStructure () {
 
   var outro = {};
   outro["section"] = "outro";
-  outro["length"] = randMultipleOfFour(8, 16);
+  outro["length"] = randMultipleOfFour(4, 8);
   order.push(outro);
   return order;
 }
