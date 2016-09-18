@@ -1,4 +1,4 @@
-var bass = [ "acoustic_bass",
+var bass = ["acoustic_bass",
   "electric_bass_finger",
   "electric_bass_pick",
   "fretless_bass",
@@ -58,3 +58,59 @@ var woodwinds = ["flute", "alto_sax",
   "baritone_sax",
   "soprano_sax",
   "tenor_sax"];
+
+
+var background = [woodwinds, orchestra, voice, brass, bass, guitar];
+var melody = [brass, percussion, piano]; 
+
+
+function chooseInstruments(){
+
+//Choose instruments for backgrounds
+
+var randomBackgroundFactor = Math.random();
+var randomBackgroundFactor2 = Math.random();
+var randomFactor = Math.random();
+var numberOfBackgroundInstruments;
+var backgroundInstruments = [];
+
+//Choose random number to determine if there are one or two background instruments
+// If background instrument has a brass instrument take it out of the melody selection
+// Adds random instrument to the list from the music type list. 
+if (randomFactor > 0.8){
+	numberOfBackgroundInstruments = 2;
+}
+else {
+	numberOfBackgroundInstruments = 1;
+}
+
+for(i = 0; i < numberOfBackgroundInstruments; i++){
+	var listIndex = Math.floor(randomBackgroundFactor * background.length);
+	if(background[listIndex] === brass){
+		melody.shift();
+	}
+	var backgroundInstrumentChoice = background[listIndex];
+	var backgroundInstrumentIndex = Math.floor(randomBackgroundFactor2 * background[listIndex].length);
+	backgroundInstruments.push(backgroundInstrumentChoice[backgroundInstrumentIndex]);
+	background.splice(listIndex,1);
+}
+	
+var randomMelodyFactor = Math.random();
+var randomMelodyFactor2 = Math.random();
+var melodyInstruments = [];
+var melodylistIndex1 = Math.floor(randomMelodyFactor * melody.length);
+ 
+
+//Repeats the same process as above just for melody
+var melodyInstrumentChoice = melody[melodylistIndex1];
+var melodyInstrumentIndex = Math.floor(randomMelodyFactor2 * melody[melodylistIndex1].length)
+melodyInstruments.push(melodyInstrumentChoice[melodyInstrumentIndex]);
+
+
+var instrumentSelection = {"melody": melodyInstruments, "background": backgroundInstruments};
+
+return instrumentSelection;
+};
+
+ 
+
