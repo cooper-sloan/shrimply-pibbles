@@ -31,7 +31,7 @@ window.onload = function () {
     onsuccess: function() {
       MIDI.programChange(0, MIDI.GM.byName["synth_drum"].number);
       var delay = 0; // play one note every quarter second
-      var note = 21; // the MIDI note
+      var note = 30; // the MIDI note
       var velocity = 127; // how hard the note hits
       // play the note
       MIDI.setVolume(0, 127);
